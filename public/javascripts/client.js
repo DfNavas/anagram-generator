@@ -33993,7 +33993,7 @@ const _ = __webpack_require__(4);
 
 
 function anagrams(str) {
-    if (!str.match(/^[a-zA-ZñÑ]*$/)) {
+    if (!str.match(/^[a-zA-ZÀ-ž]*$/)) {
         throw new Error("Input is not a word")
     } else return _.uniq(permutator(str.split(""))).sort()
 }
