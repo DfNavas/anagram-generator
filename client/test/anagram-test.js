@@ -1,4 +1,5 @@
 var chai = require('chai');
+var _ = require('lodash');
 
 var anagramBuilder = require('../engines/anagram')
 
@@ -13,9 +14,13 @@ describe('This full app', function () {
         anagramBuilder('ab').should.have.lengthOf(2);
     });
     it('throws error if input is not a word', function () {
-       chai.expect(function(){
-           anagramBuilder('a a')
-       }).to.throw()
+        chai.expect(function () {
+            anagramBuilder('a a')
+        }).to.throw()
     });
-
+    it('should not contain repeated anagrams', function () {
+        var x = anagramBuilder("abab")
+        var y = _.uniq(x)
+        x.length.should.equal(y.length)
+    });
 });

@@ -68,49 +68,13 @@
 /***/ (function(module, exports, __webpack_require__) {
 
 const angular = __webpack_require__(1);
-const _ = __webpack_require__(3);
+const anagramBuilder=__webpack_require__(3)
 
-
-const anagramBuilder = function (word) {
-    var index = 0;
-    var counter = 0;
-    var allAnagrams = [];
-
-    function swap(a, b, str) {
-        str = str.split("");
-        var temp = str[a];
-        str[a] = str[b];
-        str[b] = temp;
-        return str.join("");
-    }
-
-    function anagram(_a, _b, ar) {
-        if (_a == _b) {
-            allAnagrams[index] = ar;
-            index++;
-            counter++;
-        }
-        else {
-            for (var i = _a; i <= _b; i++) {
-                ar = swap(_a, i, ar);
-                anagram(_a + 1, _b, ar);
-                ar = swap(_a, i, ar);
-            }
-        }
-    }
-
-    var originalWord = word;
-    var wordLength = originalWord.length;
-    anagram(0, wordLength - 1, originalWord);
-
-    return _.sortedUniq(allAnagrams).sort();
-}
 angular.module('anagramGenerator', [])
     .controller('MainCtrl', ['$scope', function ($scope) {
 
         $scope.anagrams = [];
         $scope.generateAnagrams = function () {
-
             $scope.anagrams = anagramBuilder($scope.word)
         };
     }]);
@@ -34025,6 +33989,43 @@ $provide.value("$locale", {
 /* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
+const _ = __webpack_require__(4);
+
+
+function anagrams(str) {
+    if (!str.match(/^[a-zA-Z]*$/)) {
+        throw new Error("Input is not a word")
+    } else return _.uniq(permutator(str.split(""))).sort()
+}
+
+function permutator(inputArr) {
+    var results = [];
+
+    function permute(arr, memo) {
+        var cur, memo = memo || [];
+
+        for (var i = 0; i < arr.length; i++) {
+            cur = arr.splice(i, 1);
+            if (arr.length === 0) {
+                results.push(memo.concat(cur).join(""));
+            }
+            permute(arr.slice(), memo.concat(cur));
+            arr.splice(i, 0, cur[0]);
+        }
+
+        return results;
+    }
+
+    return permute(inputArr);
+}
+
+
+module.exports = anagrams
+
+/***/ }),
+/* 4 */
+/***/ (function(module, exports, __webpack_require__) {
+
 /* WEBPACK VAR INJECTION */(function(global, module) {var __WEBPACK_AMD_DEFINE_RESULT__;/**
  * @license
  * Lodash <https://lodash.com/>
@@ -51111,10 +51112,10 @@ $provide.value("$locale", {
   }
 }.call(this));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4), __webpack_require__(5)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5), __webpack_require__(6)(module)))
 
 /***/ }),
-/* 4 */
+/* 5 */
 /***/ (function(module, exports) {
 
 var g;
@@ -51141,7 +51142,7 @@ module.exports = g;
 
 
 /***/ }),
-/* 5 */
+/* 6 */
 /***/ (function(module, exports) {
 
 module.exports = function(module) {

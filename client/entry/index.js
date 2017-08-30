@@ -6,7 +6,6 @@ angular.module('anagramGenerator', [])
 
         $scope.anagrams = [];
         $scope.generateAnagrams = function () {
-
             $scope.anagrams = anagramBuilder($scope.word)
         };
     }]);
